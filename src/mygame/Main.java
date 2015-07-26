@@ -66,7 +66,9 @@ public class Main extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
         
-         
+        Spatial model =  ObjectHelper.AddModel(new Vector3f(5, 0, 5));
+        s_TreeNode.attachChild(model);
+        
 
         CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sceneModel);
         RigidBodyControl landscape = new RigidBodyControl(sceneShape, 0);
@@ -83,6 +85,8 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(float tpf) {
         player.update(tpf);
         System.out.println(Statics.s_PlayerSettingModel);
+        ObjectHelper.HighlightModel(cam, inputManager);
+        ObjectHelper.MoveModel(cam, inputManager, sceneModel);
     }
 
     @Override

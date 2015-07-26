@@ -135,10 +135,6 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
         inputManager.addMapping("ZoomOut", new KeyTrigger(KeyInput.KEY_SUBTRACT));
         inputManager.addMapping("LeftClick", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         inputManager.addMapping("RightClick", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
-        inputManager.addMapping("MoveModelLeft", new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("MoveModelRight", new KeyTrigger(KeyInput.KEY_L));
-        inputManager.addMapping("MoveModelUp", new KeyTrigger(KeyInput.KEY_I));
-        inputManager.addMapping("MoveModelDown", new KeyTrigger(KeyInput.KEY_K));
         inputManager.addMapping("SetModel", new KeyTrigger(KeyInput.KEY_SPACE));
         
         inputManager.addListener(this, "Left");
@@ -153,15 +149,12 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
         inputManager.addListener(this, "ZoomOut");
         inputManager.addListener(this, "LeftClick");
         inputManager.addListener(this, "RightClick");
-        inputManager.addListener(this, "MoveModelLeft");
-        inputManager.addListener(this, "MoveModelRight");
-        inputManager.addListener(this, "MoveModelUp");
-        inputManager.addListener(this, "MoveModelDown");
         inputManager.addListener(this, "SetModel");
     }   
     
     public void onAnalog(String binding, float intensity, float tpf)
     {
+
         if(binding.equals("LeftClick")){
             CollisionResults results = new CollisionResults();
             Vector2f click2d = inputManager.getCursorPosition();
@@ -201,7 +194,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
                 }
             }
         }
-        
+       
     }
 
     public void onAction(String binding, boolean value, float tpf){
@@ -235,26 +228,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
         else if(binding.equals("ZoomOut")){
             zoomOut = value;
         }
-        else if(binding.equals("MoveModelLeft")){
-            if(Statics.s_PlayerSettingModel == true){
-            mmLeft = value;
-            }
-        }
-        else if(binding.equals("MoveModelRight")){
-            if(Statics.s_PlayerSettingModel == true){
-                mmRight = value;
-            }
-        }
-        else if(binding.equals("MoveModelUp")){
-            if(Statics.s_PlayerSettingModel == true){
-                mmUp = value;
-            }
-        }
-        else if(binding.equals("MoveModelDown")){
-            if(Statics.s_PlayerSettingModel == true){
-                mmDown = value;
-            }
-        }
+
         else if(binding.equals("SetModel")){
             if(Statics.s_PlayerSettingModel == true){
                 Statics.s_PlayerSettingModel = false;
