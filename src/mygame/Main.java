@@ -16,7 +16,7 @@ import com.jme3.scene.debug.WireBox;
 
 /**
  * test
- * @author normenhansen
+ * @author normenhansenasdfasdf
  */
 public class Main extends SimpleApplication {
 
