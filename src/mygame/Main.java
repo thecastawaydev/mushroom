@@ -14,10 +14,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.debug.WireBox;
 
-/**
- * test
- * @author normenhansenasdfasdf
- */
 public class Main extends SimpleApplication {
 
     public static Node s_TreeNode;

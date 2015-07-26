@@ -8,7 +8,11 @@
             </extension>
         </buildExtensions>
         <data xmlns="http://www.netbeans.org/ns/j2se-project/3">
+<<<<<<< HEAD
             <name>MushroomGame</name>
+=======
+            <name>Mushroom</name>
+>>>>>>> aa1fd7e6f99b536c49cdad94ffbc247669eaf778
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
