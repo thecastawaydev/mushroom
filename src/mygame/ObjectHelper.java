@@ -11,11 +11,13 @@ import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.light.AmbientLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Spatial;
 
 /**
@@ -28,13 +30,19 @@ public final class ObjectHelper {
     public static Spatial s_Model;
     public static float modelX;
     public static float modelZ;
+    public static Material highlightMat;
     
+    public static void LoadObjectHelper(){
+        highlightMat = new Material(Main.s_AssetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        highlightMat.setColor("Color", ColorRGBA.White);
+    }
     public static Spatial AddModel(Vector3f position){
             s_Model = Main.s_AssetManager.loadModel("Models/tree.obj");
             
             s_Model.setLocalTranslation(position);
             s_Model.scale(0.8f);
             s_Model.setName("tree");
+            s_Model.setShadowMode(ShadowMode.CastAndReceive);
             
             modelX = s_Model.getLocalTranslation().x;
             modelZ = s_Model.getLocalTranslation().z;
@@ -73,11 +81,14 @@ public final class ObjectHelper {
         Main.s_TreeNode.collideWith(mouseRay, results);
         
         if(results.size() > 0){
-            Spatial target = results.getClosestCollision().getGeometry();  
+            Spatial target = results.getClosestCollision().getGeometry();
                 AmbientLight light = new AmbientLight();
-                light.setColor(ColorRGBA.White);
+                light.setColor(ColorRGBA.Blue);
+                Main.s_TreeNode.addLight(light);
                 target.addLight(light);
+
         }
+
     }
     
     public static void MoveModel(Camera cam, InputManager inputManager, Spatial scene)

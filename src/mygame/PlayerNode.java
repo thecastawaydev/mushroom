@@ -6,7 +6,6 @@ package mygame;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
-import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
@@ -15,7 +14,6 @@ import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -23,6 +21,7 @@ import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 /**
@@ -57,6 +56,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
         this.model = model;
         this.model.scale(0.2f);
         this.model.setLocalTranslation(0, -1f, 0);
+        this.model.setShadowMode(ShadowMode.CastAndReceive);
         this.attachChild(this.model);
         
         CapsuleCollisionShape playerShape = new CapsuleCollisionShape(0.5f, 1f);
@@ -185,8 +185,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
                 
                 CollisionResult point = results.getClosestCollision();
                 Vector3f destination = point.getContactPoint();
-                Spatial target = results.getClosestCollision().getGeometry();
-                     
+
                 ObjectHelper.s_Model = ObjectHelper.AddModel(destination);
                 
                 Main.s_TreeNode.attachChild(ObjectHelper.s_Model);

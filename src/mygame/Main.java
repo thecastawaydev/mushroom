@@ -9,10 +9,14 @@ import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.post.FilterPostProcessor;
 import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.debug.WireBox;
+import com.jme3.shadow.DirectionalLightShadowFilter;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 
 public class Main extends SimpleApplication {
 
@@ -40,9 +44,8 @@ public class Main extends SimpleApplication {
         
         s_TreeNode = new Node();
         s_AssetManager = assetManager;
-        
-        int offset = -32;     
-        
+        ObjectHelper.LoadObjectHelper();
+                
         sceneNode = new Node();
         mouseInput.setCursorVisible(true);
         flyCam.setEnabled(false);
@@ -62,10 +65,20 @@ public class Main extends SimpleApplication {
         sun.setColor(ColorRGBA.White);
         rootNode.addLight(sun);
         
+        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(assetManager, 1024, 3);
+        dlsr.setLight(sun);
+        viewPort.addProcessor(dlsr);
+        
+        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, 1024, 3);
+        dlsf.setLight(sun);
+        dlsf.setEnabled(true);
+        FilterPostProcessor fpp = new FilterPostProcessor(assetManager);
+        fpp.addFilter(dlsf);
+        viewPort.addProcessor(fpp);
+
         Spatial model =  ObjectHelper.AddModel(new Vector3f(5, 0, 5));
         s_TreeNode.attachChild(model);
         
-
         CollisionShape sceneShape = CollisionShapeFactory.createMeshShape(sceneModel);
         RigidBodyControl landscape = new RigidBodyControl(sceneShape, 0);
         sceneModel.addControl(landscape);
