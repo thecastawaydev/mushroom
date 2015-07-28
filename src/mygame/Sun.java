@@ -31,11 +31,11 @@ public class Sun {
     private float fogDensity = 0f;
     public void initSun(Node rootNode, ViewPort viewPort, Camera cam)
     {
-        //sunDirection = new Vector3f(-0.5f, -0.5f, -0.5f);
+        sunDirection = new Vector3f(-0.5f, -0.5f, -0.5f);
         DirectionalLight sun = new DirectionalLight();
         //sun.setDirection(sunDirection);
-        //sun.setColor(ColorRGBA.White);*/
-         sc = new SkyControl(Main.s_AssetManager, cam, 0.9f, true, true);
+        //sun.setColor(ColorRGBA.White);
+        sc = new SkyControl(Main.s_AssetManager, cam, 0.9f, true, true);
         rootNode.addControl(sc);
         sc.getUpdater().setMainLight(sun);
         sc.getSunAndStars().setObserverLatitude(0f);
@@ -55,21 +55,19 @@ public class Sun {
         Main.s_StateManager.attach(timeOfDay);
         timeOfDay.setRate(1000f);
         
-        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(Main.s_AssetManager, 1024, 3);
-        dlsr.setLight(sun);
-        viewPort.addProcessor(dlsr);
-        
         DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(Main.s_AssetManager, 1024, 3);
         dlsf.setLight(sun);
         dlsf.setEnabled(true);
         FilterPostProcessor fpp = new FilterPostProcessor(Main.s_AssetManager);
         fpp.addFilter(dlsf);
-        viewPort.addProcessor(fpp);       
+        viewPort.addProcessor(fpp);     
         
-        fogFilter = new FogFilter();
-        fogFilter.setFogDistance(200);
-
-        fpp.addFilter(fogFilter);
+        DirectionalLightShadowRenderer dlsr = new DirectionalLightShadowRenderer(Main.s_AssetManager, 1024, 3);
+        dlsr.setLight(sun);
+        viewPort.addProcessor(dlsr);
+        
+  
+       
     }
     
     public void updateSun(float tpf)

@@ -44,11 +44,9 @@ public final class ObjectHelper {
             s_Model.setName("tree");
             s_Model.setShadowMode(ShadowMode.CastAndReceive);
             
-            modelX = s_Model.getLocalTranslation().x;
-            modelZ = s_Model.getLocalTranslation().z;
-            
             CollisionShape collision = new CapsuleCollisionShape(0.5f, 1f);        
             physicsControl = new RigidBodyControl(collision, 0);
+            physicsControl.setKinematic(true);
             s_Model.addControl(physicsControl);
             Main.bulletAppState.getPhysicsSpace().add(s_Model);
            // Main.s_TreeNode.attachChild(s_Model);

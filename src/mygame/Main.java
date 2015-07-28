@@ -61,7 +61,7 @@ public class Main extends SimpleApplication {
                           
         rootNode.attachChild(s_TreeNode);
 
-        bulletAppState.getPhysicsSpace().enableDebug(assetManager);
+        //bulletAppState.getPhysicsSpace().enableDebug(assetManager);
         
         hudText = new BitmapText(guiFont, false);
         hudText.setSize(guiFont.getCharSet().getRenderedSize());
