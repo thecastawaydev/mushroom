@@ -36,12 +36,13 @@ public final class ObjectHelper {
         highlightMat = new Material(Main.s_AssetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         highlightMat.setColor("Color", ColorRGBA.White);
     }
-    public static Spatial AddModel(Vector3f position){
+    public static Spatial AddModel(Vector3f position, String name){
             s_Model = Main.s_AssetManager.loadModel("Models/tree.obj");
             
             s_Model.setLocalTranslation(position);
             s_Model.scale(0.8f);
-            s_Model.setName("tree");
+            s_Model.setName(name);
+           
             s_Model.setShadowMode(ShadowMode.CastAndReceive);
             
             CollisionShape collision = new CapsuleCollisionShape(0.5f, 1f);        

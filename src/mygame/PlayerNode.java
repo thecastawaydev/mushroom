@@ -186,7 +186,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
                 CollisionResult point = results.getClosestCollision();
                 Vector3f destination = point.getContactPoint();
 
-                ObjectHelper.s_Model = ObjectHelper.AddModel(destination);
+                ObjectHelper.s_Model = ObjectHelper.AddModel(destination, "tree");
                 
                 Main.s_TreeNode.attachChild(ObjectHelper.s_Model);
                 Statics.s_PlayerSettingModel = true;

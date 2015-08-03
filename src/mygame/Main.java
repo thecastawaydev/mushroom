@@ -5,6 +5,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.font.BitmapText;
+import com.jme3.input.InputManager;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
@@ -16,6 +17,7 @@ public class Main extends SimpleApplication {
     public static Node s_TreeNode;
     public static AssetManager s_AssetManager;
     public static AppStateManager s_StateManager;
+    public static InputManager s_InputManager;
     
     private PlayerNode player;
     public static BulletAppState bulletAppState;
@@ -24,6 +26,7 @@ public class Main extends SimpleApplication {
     private Sun sun;
     
     BitmapText hudText;
+    Inventory inventory;
     
     public static void main(String[] args) {
         Main app = new Main();
@@ -36,6 +39,8 @@ public class Main extends SimpleApplication {
         s_TreeNode = new Node();
         s_AssetManager = assetManager;
         s_StateManager = stateManager;
+        s_InputManager = inputManager;
+        inventory = new Inventory(this, guiNode, rootNode, cam);
         ObjectHelper.LoadObjectHelper();
                       
         mouseInput.setCursorVisible(true);
@@ -55,19 +60,20 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(player);
         bulletAppState.getPhysicsSpace().add(player);
         
-        Spatial model =  ObjectHelper.AddModel(new Vector3f(5, 0, 5));
+        Spatial model =  ObjectHelper.AddModel(new Vector3f(5, 0, 5), "tree");
         s_TreeNode.attachChild(model);
         
                           
         rootNode.attachChild(s_TreeNode);
 
-        //bulletAppState.getPhysicsSpace().enableDebug(assetManager);
+        bulletAppState.getPhysicsSpace().enableDebug(assetManager);
         
         hudText = new BitmapText(guiFont, false);
         hudText.setSize(guiFont.getCharSet().getRenderedSize());
         hudText.setColor(ColorRGBA.White);
         hudText.setLocalTranslation(300, hudText.getLineHeight(), 0);
         guiNode.attachChild(hudText);
+        
     }
     
     @Override
@@ -77,6 +83,7 @@ public class Main extends SimpleApplication {
         ObjectHelper.MoveModel(cam, inputManager, mainScene.sceneModel);
         sun.updateSun(tpf);
         hudText.setText(sun.timeOfDay.getHour() + ":" + sun.timeOfDay.getSecond());
+        inventory.simpleUpdate(tpf);
     }
 
     @Override
