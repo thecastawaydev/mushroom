@@ -12,6 +12,7 @@ import com.jme3.collision.CollisionResults;
 import com.jme3.input.InputManager;
 import com.jme3.light.AmbientLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
@@ -19,6 +20,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Spatial;
+import com.jme3.texture.Texture;
 
 /**
  *
@@ -31,10 +33,19 @@ public final class ObjectHelper {
     public static float modelX;
     public static float modelZ;
     public static Material highlightMat;
+    public static Material greenTrans, redTrans;
     
     public static void LoadObjectHelper(){
         highlightMat = new Material(Main.s_AssetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        highlightMat.setColor("Color", ColorRGBA.White);
+        Texture texture = Main.s_AssetManager.loadTexture("Models/tree.png");
+        highlightMat.setTexture("ColorMap", texture);
+        
+        greenTrans = new Material(Main.s_AssetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        greenTrans.setColor("Color", new ColorRGBA(0, 1, 0, 0.3f));
+        greenTrans.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
+        redTrans = new Material(Main.s_AssetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        redTrans.setColor("Color", new ColorRGBA(1, 0, 0, 0.3f));
+        redTrans.getAdditionalRenderState().setBlendMode(BlendMode.Alpha);
     }
     public static Spatial AddModel(Vector3f position, String name){
             s_Model = Main.s_AssetManager.loadModel("Models/tree.obj");
@@ -42,7 +53,7 @@ public final class ObjectHelper {
             s_Model.setLocalTranslation(position);
             s_Model.scale(0.8f);
             s_Model.setName(name);
-           
+
             s_Model.setShadowMode(ShadowMode.CastAndReceive);
             
             CollisionShape collision = new CapsuleCollisionShape(0.5f, 1f);        
@@ -58,7 +69,7 @@ public final class ObjectHelper {
     public static void SetModel(Vector3f position){
         s_Model.setLocalTranslation(position);
         s_Model.getControl(RigidBodyControl.class).setPhysicsLocation(position);
-        
+                        ObjectHelper.s_Model.setMaterial(ObjectHelper.greenTrans);
     }
     
     public static void RemoveModel(Spatial model)
@@ -106,7 +117,7 @@ public final class ObjectHelper {
              if(results.size() > 0){
                  CollisionResult point = results.getClosestCollision();
                 Vector3f destination = point.getContactPoint();
-                
+                ObjectHelper.s_Model.setMaterial(ObjectHelper.greenTrans);
                 SetModel(destination);
              }
         }

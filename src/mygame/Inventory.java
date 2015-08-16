@@ -20,6 +20,7 @@ import com.jme3.math.Vector4f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import tonegod.gui.controls.extras.DragElement;
 import tonegod.gui.controls.windows.Window;
 import tonegod.gui.core.Element;
@@ -43,14 +44,16 @@ CollisionResult closest;
 Camera cam;
 
 boolean showInventory = false;
-Element inventory;
+public Element inventory;
 Window win;
+InventorySlot[] inventorySlots;
 
 public Inventory(Main main, Node guiNode, Node rootNode, Camera cam){
     initInventory(main, guiNode, rootNode, cam);
 }
 public void initInventory(Main main, Node guiNode, Node rootNode, Camera cam) {
 
+     inventorySlots = new InventorySlot[40];
 	createGUIScreen(main, guiNode);
 	layoutGUI();
 
@@ -60,6 +63,8 @@ public void initInventory(Main main, Node guiNode, Node rootNode, Camera cam) {
                 
             Main.s_InputManager.addMapping("ShowInventory", new KeyTrigger(KeyInput.KEY_I));
     Main.s_InputManager.addListener(this, "ShowInventory");
+    
+   
 }
 
 
@@ -67,6 +72,7 @@ private void createGUIScreen(Main main, Node guiNode) {
 	screen = new Screen(main);
 	screen.setUseUIAudio(true);
 	screen.setUIAudioVolume(1f);
+        screen.setUseToolTips(true);
 	guiNode.addControl(screen);
 
 }
@@ -119,6 +125,8 @@ private void layoutGUI() {
                 }
                 Element e = createInventorySlot(i, x, y);
                 
+                inventorySlots[i] = new InventorySlot(i, 0, "empty");
+                e.setToolTipText(inventorySlots[i].itemName + " : " + inventorySlots[i].slotNumber + " : " + inventorySlots[i].quantity);
 		inventory.addChild(e);
 	}
         
@@ -151,7 +159,7 @@ private Element createInventorySlot(int index, float x, float y) {
 	return slot;
 }
 
-private DragElement createNewDragElement() {
+public DragElement createNewDragElement() {
 	DragElement e = new DragElement(
 		screen,
 		new Vector2f(

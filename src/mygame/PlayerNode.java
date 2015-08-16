@@ -24,6 +24,8 @@ import com.jme3.renderer.Camera;
 import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import tonegod.gui.controls.extras.DragElement;
+import tonegod.gui.core.Element;
 /**
  *
  * @author christian
@@ -166,6 +168,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
             if(results.size() > 0){
                 Spatial target = results.getClosestCollision().getGeometry();                    
                 ObjectHelper.RemoveModel(target);
+                InventoryHelper.AddToInventory(target);
             }
         }
         
@@ -231,6 +234,7 @@ public class PlayerNode extends Node implements ActionListener, AnalogListener{
         else if(binding.equals("SetModel")){
             if(Statics.s_PlayerSettingModel == true){
                 Statics.s_PlayerSettingModel = false;
+                ObjectHelper.s_Model.setMaterial(ObjectHelper.highlightMat);
             }
         }
     }

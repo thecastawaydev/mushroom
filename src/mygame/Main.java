@@ -26,7 +26,7 @@ public class Main extends SimpleApplication {
     private Sun sun;
     
     BitmapText hudText;
-    Inventory inventory;
+    public static Inventory inventory;
     
     public static void main(String[] args) {
         Main app = new Main();
